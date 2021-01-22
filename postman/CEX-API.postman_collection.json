@@ -1,0 +1,117 @@
+{
+	"info": {
+		"_postman_id": "bedd5da1-ed38-4f1b-8807-2a069654d9a6",
+		"name": "CEX-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/currency",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"currency\" : \"EUR\",\n\t\"amount\" : 100\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/currency",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"currency"
+					]
+				},
+				"description": "Post currency"
+			},
+			"response": []
+		},
+		{
+			"name": "/exchange",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e5a27efe-8264-48ae-9239-3f61d2fac2a5",
+						"exec": [
+							"pm.test(\"Converted Amount Is Correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.converted_amount).to.eql(199.98);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"base_currency\": \"EUR\",\r\n\t\"amount\": 99.99,\r\n\t\"target_currency\": \"GBP\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/exchange",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"exchange"
+					]
+				},
+				"description": "Exchange base currency to target currency on predefined conversion rates"
+			},
+			"response": []
+		},
+		{
+			"name": "/currency/{base}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				},
+				"description": "Provide base currency to get a list of conversion rates for that base currency"
+			},
+			"response": []
+		},
+		{
+			"name": "/currencies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				},
+				"description": "A list of all available currencies that can be used as base or conversion"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
