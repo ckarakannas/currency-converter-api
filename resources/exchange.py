@@ -9,12 +9,12 @@ exchange_list_schema = ExchangeSchema(many=True)
 
 def process_single_entry(exchange_json: dict):
     exchange = exchange_schema.load(exchange_json)
-    currency_data = rates_data.get(exchange.base.upper())
+    currency_data = rates_data.get(exchange.base)
     if not currency_data:
-        return {"message": "Base currency {0} does not exist in the database.".format(exchange.base.upper())}, 400
-    exchange.conversion_rate = currency_data.rates.get(exchange.target.upper())
+        return {"message": "Base currency {0} does not exist in the database.".format(exchange.base)}, 400
+    exchange.conversion_rate = currency_data.rates.get(exchange.target)
     if not exchange.conversion_rate:
-        return {"message": "Target currency {0} does not exist in the database.".format(exchange.target.upper())}, 400
+        return {"message": "Target currency {0} does not exist in the database.".format(exchange.target)}, 400
     exchange.convert()
     return exchange_schema.dump(exchange), 201
 
@@ -22,13 +22,13 @@ def process_single_entry(exchange_json: dict):
 def process_multiple_entries(exchange_json: dict):
     exchange = exchange_list_schema.load(exchange_json)
     for entry in exchange:
-        currency_data = rates_data.get(entry.base.upper())
+        currency_data = rates_data.get(entry.base)
         if not currency_data:
-            entry.message = "Base currency {0} does not exist in the database.".format(entry.base.upper())
+            entry.message = "Base currency {0} does not exist in the database.".format(entry.base)
             continue
-        entry.conversion_rate = currency_data.rates.get(entry.target.upper())
+        entry.conversion_rate = currency_data.rates.get(entry.target)
         if not entry.conversion_rate:
-            entry.message = "Target currency {0} does not exist in the database.".format(entry.target.upper())
+            entry.message = "Target currency {0} does not exist in the database.".format(entry.target)
             continue
         entry.convert()
     return exchange_list_schema.dump(exchange), 201
@@ -54,12 +54,12 @@ class SingleBaseExchange(Resource):
         exchange_json = request.get_json()
         exchange_json["base"] = base_currency
         exchange = exchange_schema.load(exchange_json)
-        currency_data = rates_data.get(exchange.base.upper())
+        currency_data = rates_data.get(exchange.base)
         if not currency_data:
-            return {"message": "Base currency {0} does not exist in the database.".format(exchange.base.upper())}, 400
-        exchange.conversion_rate = currency_data.rates.get(exchange.target.upper())
+            return {"message": "Base currency {0} does not exist in the database.".format(exchange.base)}, 400
+        exchange.conversion_rate = currency_data.rates.get(exchange.target)
         if not exchange.conversion_rate:
             return {"message": "Target currency {0} does not exist in the database.".format(
-                exchange.target.upper())}, 400
+                exchange.target)}, 400
         exchange.convert()
         return exchange_schema.dump(exchange), 201

@@ -1,5 +1,5 @@
 from ma import ma
-from marshmallow import post_load, post_dump, EXCLUDE, validate
+from marshmallow import pre_load, post_load, post_dump, EXCLUDE, validate, ValidationError
 from models.exchange import ExchangeModel
 
 
@@ -19,7 +19,13 @@ class ExchangeSchema(ma.Schema):
 
     @post_load
     def create_exchange_model(self, data, **kwargs) -> "ExchangeModel":
+        data = self.format_currency_codes(data)
         return ExchangeModel(**data)
+
+    def format_currency_codes(self, data):
+        data['base'] = data['base'].upper()
+        data['target'] = data['target'].upper()
+        return data
 
     @post_dump
     def remove_skip_values(self, data, **kwargs):
