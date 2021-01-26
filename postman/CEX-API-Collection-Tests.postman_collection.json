@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "bedd5da1-ed38-4f1b-8807-2a069654d9a6",
-		"name": "CEX-API",
+		"_postman_id": "2dc3d60e-1bda-4ff7-9928-c8e59e55273c",
+		"name": "CEX-API-Collection-Tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -17,10 +17,36 @@
 							"    return +(Math.round(num + \"e+2\")  + \"e-2\");",
 							"}",
 							"",
-							"pm.test(\"Converted Amount Is Correct\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(roundToTwo(jsonData.converted_amount)).to.eql(90.24);",
+							"var jsonData = pm.response.json();",
+							"var convertedResult = pm.iterationData.get(\"converted\");",
+							"",
+							"",
+							"if (jsonData.converted_amount == null)",
+							"{pm.test('Returns error message', function() {",
+							"  pm.expect(jsonData).to.have.property('message');",
 							"});",
+							"",
+							"",
+							"pm.test(\"Unsuccesful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);",
+							"});",
+							"}",
+							"else",
+							"{pm.test(\"Converted Amount Is Correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(roundToTwo(jsonData.converted_amount)).to.eql(convertedResult);",
+							"});",
+							"",
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"}); ",
+							"    ",
+							"}",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"",
 							""
 						],
 						"type": "text/javascript"
@@ -49,7 +75,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\t\"base\": \"EUR\",\r\n\t\t\"amount\": 100.00,\r\n\t\t\"target\": \"GBP\"\r\n}\r\n",
+					"raw": "{\r\n\t\t\"base\": \"{{base}}\",\r\n\t\t\"amount\": 100.00,\r\n\t\t\"target\": \"{{target}}\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -80,9 +106,23 @@
 							"function roundToTwo(num) {    ",
 							"    return +(Math.round(num + \"e+2\")  + \"e-2\");",
 							"}",
-							"pm.test(\"Converted Amount Is Correct\", function () {",
+							"pm.test(\"Converted Amounts Are Correct\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    pm.expect(roundToTwo(jsonData[0].converted_amount)).to.eql(110.82);",
+							"    pm.expect(roundToTwo(jsonData[2].converted_amount)).to.eql(82.22);",
+							"});",
+							"",
+							"pm.test(\"Correct Response For Non Existent Currency\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData[1].message).to.eql(\"Base currency AUD does not exist in the database.\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"",
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -132,10 +172,38 @@
 							"function roundToTwo(num) {    ",
 							"    return +(Math.round(num + \"e+2\")  + \"e-2\");",
 							"}",
-							"pm.test(\"Converted Amount Is Correct\", function () {",
+							"",
+							"",
+							"var jsonData = pm.response.json();",
+							"var convertedResult = pm.iterationData.get(\"converted\");",
+							"",
+							"",
+							"if (jsonData.converted_amount == null)",
+							"{pm.test('Returns error message', function() {",
+							"  pm.expect(jsonData).to.have.property('message');",
+							"});",
+							"",
+							"",
+							"pm.test(\"Unsuccesful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);",
+							"});",
+							"}",
+							"else",
+							"{pm.test(\"Converted Amount Is Correct\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(roundToTwo(jsonData.converted_amount)).to.eql(90.24);",
-							"});"
+							"    pm.expect(roundToTwo(jsonData.converted_amount)).to.eql(convertedResult);",
+							"});",
+							"",
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"}); ",
+							"    ",
+							"}",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -153,7 +221,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"amount\": 100.00,\r\n\t\"target\": \"gbp\"\r\n}",
+					"raw": "{\r\n\t\"amount\": 100.00,\r\n\t\"target\": \"{{target}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -161,40 +229,16 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/exchange/eur",
+					"raw": "{{url}}/exchange/{{base}}",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"exchange",
-						"eur"
+						"{{base}}"
 					]
 				},
 				"description": "Exchange a single entry by providing the base currency in the header"
-			},
-			"response": []
-		},
-		{
-			"name": "/currency/{base}",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": ""
-				},
-				"description": "Provide base currency to get a list of conversion rates for that base currency"
-			},
-			"response": []
-		},
-		{
-			"name": "/currencies",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": ""
-				},
-				"description": "A list of all available currencies that can be used as base or conversion"
 			},
 			"response": []
 		}

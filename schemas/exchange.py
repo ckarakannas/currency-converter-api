@@ -9,7 +9,7 @@ class ExchangeSchema(ma.Schema):
         dump_only = ("converted_amount", "conversion_rate", "description")
         ordered = True
 
-    SKIP_VALUES = set([None])
+    SKIP_VALUES = {None}
     base = ma.Str(required=True, validate=validate.Length(equal=3))
     target = ma.Str(required=True, validate=validate.Length(equal=3))
     amount = ma.Float(required=True)
