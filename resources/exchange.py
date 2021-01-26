@@ -12,10 +12,9 @@ def process_single_entry(exchange_json: dict):
     currency_data = rates_data.get(exchange.base.upper())
     if not currency_data:
         return {"message": "Base currency {0} does not exist in the database.".format(exchange.base.upper())}, 400
-    conversion_rate = currency_data.rates.get(exchange.target.upper())
-    if not conversion_rate:
+    exchange.conversion_rate = currency_data.rates.get(exchange.target.upper())
+    if not exchange.conversion_rate:
         return {"message": "Target currency {0} does not exist in the database.".format(exchange.target.upper())}, 400
-    exchange.conversion_rate = conversion_rate
     exchange.convert()
     return exchange_schema.dump(exchange), 201
 
@@ -25,11 +24,12 @@ def process_multiple_entries(exchange_json: dict):
     for entry in exchange:
         currency_data = rates_data.get(entry.base.upper())
         if not currency_data:
-            return {"message": "Base currency {0} does not exist in the database.".format(entry.base.upper())}, 400
-        conversion_rate = currency_data.rates.get(entry.target.upper())
-        if not conversion_rate:
-            return {"message": "Target currency {0} does not exist in the database.".format(entry.target.upper())}, 400
-        entry.conversion_rate = conversion_rate
+            entry.message = "Base currency {0} does not exist in the database.".format(entry.base.upper())
+            continue
+        entry.conversion_rate = currency_data.rates.get(entry.target.upper())
+        if not entry.conversion_rate:
+            entry.message = "Target currency {0} does not exist in the database.".format(entry.target.upper())
+            continue
         entry.convert()
     return exchange_list_schema.dump(exchange), 201
 
@@ -48,7 +48,6 @@ class ExchangeMultiple(Resource):
         return process_multiple_entries(exchange_json)
 
 
-
 class SingleBaseExchange(Resource):
     @classmethod
     def post(cls, base_currency: str):
@@ -57,10 +56,10 @@ class SingleBaseExchange(Resource):
         exchange = exchange_schema.load(exchange_json)
         currency_data = rates_data.get(exchange.base.upper())
         if not currency_data:
-            return {"message": "Base currency provided does not exist in the database."}
-        conversion_rate = currency_data.rates.get(exchange.target.upper())
-        if not conversion_rate:
-            return {"message": "Target currency provided does not exist in the database."}
-        exchange.conversion_rate = conversion_rate
+            return {"message": "Base currency {0} does not exist in the database.".format(exchange.base.upper())}, 400
+        exchange.conversion_rate = currency_data.rates.get(exchange.target.upper())
+        if not exchange.conversion_rate:
+            return {"message": "Target currency {0} does not exist in the database.".format(
+                exchange.target.upper())}, 400
         exchange.convert()
         return exchange_schema.dump(exchange), 201
