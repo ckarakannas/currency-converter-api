@@ -4,8 +4,10 @@ from models.rates import RatesModel
 
 
 class RatesSchema(ma.Schema):
-    base = ma.Str(required=True)
+    class Meta:
+        ordered = True
     date = ma.Str()
+    base = ma.Str(required=True, validate=validate.Length(equal=3))
     rates = ma.Dict(keys=ma.Str(validate=validate.Length(equal=3)), values=ma.Float(required=True), required=True)
 
     @post_load(pass_many=True)
@@ -13,4 +15,4 @@ class RatesSchema(ma.Schema):
         return RatesModel.create_dict(*data)
 
 
-rates_schema = RatesSchema(many=True)
+rates_list_schema = RatesSchema(many=True)

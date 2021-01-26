@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from flask_restful import Resource, Api
 from resources.exchange import Exchange, SingleBaseExchange, ExchangeMultiple
+from resources.rates import SingleBaseRates, RatesList
 from ma import ma
 from marshmallow import ValidationError
 from load_rates import rates_data
@@ -26,6 +27,8 @@ api.add_resource(HelloWorld, '/')
 api.add_resource(Exchange, '/exchange', )
 api.add_resource(ExchangeMultiple, '/exchangeMany', )
 api.add_resource(SingleBaseExchange, '/exchange/<string:base_currency>')
+api.add_resource(SingleBaseRates, '/rates/<string:base_currency>')
+api.add_resource(RatesList, '/ratesList')
 
 if __name__ == '__main__':
     ma.init_app(app)
