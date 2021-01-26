@@ -1,15 +1,11 @@
-from models.currency import CurrencyModel
+class ExchangeModel:
+    def __init__(self, base: str, target: str, amount: float):
+        self.base = base
+        self.target = target
+        self.amount = amount
+        self.converted_amount = None
+        self.conversion_rate = None
 
-
-class ExchangeModel():
-    def __init__(self, base: CurrencyModel, target: CurrencyModel):
-        self.base_currency = base
-        self.target_currency = target
-
-    def json(self):
-        pass
-
-    @staticmethod
-    def convert(base_amount: float, target_currency: str):
-        rate = 2.00
-        return CurrencyModel(target_currency, base_amount * rate)
+    def convert(self):
+        self.converted_amount = round(self.amount * self.conversion_rate, 4)
+        return None
