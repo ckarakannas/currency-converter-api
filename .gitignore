@@ -1,7 +1,7 @@
 *.doc
 *.docx
 .idea/**
-
+cex-api/**
 # Created by https://www.toptal.com/developers/gitignore/api/python,pycharm,venv,virtualenv
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,pycharm,venv,virtualenv
 

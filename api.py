@@ -20,7 +20,7 @@ def handle_marshmallow_validation(err):
 
 class HelloWorld(Resource):
     def get(self):
-        return {'Hello from the Currency Exchange API!'}
+        return {"message" : "Hello from the Currency Exchange API!"}
 
 
 api.add_resource(HelloWorld, '/')
