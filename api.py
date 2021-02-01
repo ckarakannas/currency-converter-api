@@ -20,7 +20,7 @@ def handle_marshmallow_validation(err):
 
 class HelloWorld(Resource):
     def get(self):
-        return {"message" : "Hello from the Currency Exchange API!"}
+        return {"message": "Hello from the Currency Exchange API!"}
 
 
 api.add_resource(HelloWorld, '/')
@@ -32,4 +32,4 @@ api.add_resource(RatesList, '/ratesList')
 
 if __name__ == '__main__':
     ma.init_app(app)
-    app.run(port=5000, debug=True)
+    app.run(debug=True, host="0.0.0.0", port=5000)
