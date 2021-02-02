@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask_restful import Resource, Api
+import config
 from resources.exchange import Exchange, SingleBaseExchange, ExchangeMultiple
 from resources.rates import SingleBaseRates, RatesList
 from ma import ma
@@ -7,9 +8,8 @@ from marshmallow import ValidationError
 from load_rates import rates_data
 
 app = Flask(__name__)
+app.config.from_object('config')
 app.config['BUNDLE_ERRORS'] = True
-app.config["PROPAGATE_EXCEPTIONS"] = True
-
 api = Api(app)
 
 
