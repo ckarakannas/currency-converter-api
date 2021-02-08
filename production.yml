@@ -12,6 +12,6 @@ services:
       - "0.0.0.0:5000"
       - "run:app"
     ports:
-    - ${PORT:-5000}:5000
-    environment: 
+      - ${PORT:-5000}:5000
+    environment:
       - API_ENV=Production

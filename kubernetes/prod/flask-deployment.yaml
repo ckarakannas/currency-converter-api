@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deployment-prod
+  labels:
+    app: cex-api-prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cex-api-prod
+  template:
+    metadata:
+      labels:
+        app: cex-api-prod
+    spec:
+      containers:
+        - name: currency-exchange
+          image: chrisk14/currency-exchange:prod
+          args:
+            - "gunicorn"
+            - "-w"
+            - "4"
+            - "-b"
+            - "0.0.0.0:5000"
+            - "run:app"

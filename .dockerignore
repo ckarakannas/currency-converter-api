@@ -1,12 +1,25 @@
 .git
 .dockerignore
+Dockerfile
+docker-compose.override.yml
+docker-compose.yml
+production.yml
 *.doc
 *.docx
 .idea/**
+kubernetes
+kubernetes/**
+.vscode/**
+.DS_Store
+cex-api
+cex-api/**
+postman
+postman/**
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
+__pycache__/**
 *.py[cod]
 *$py.class
 
