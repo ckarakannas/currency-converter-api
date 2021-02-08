@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  flask:
+    build:
+      args:
+        API_ENV: ${API_ENV}
+    command:
+      - python
+      - api.py
+    ports:
+      - ${PORT:-5000}:5000
+    environment:
+      - API_ENV=${API_ENV}
+    volumes:
+      - ./:/usr/src/app

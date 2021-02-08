@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deployment
+  labels:
+    app: cex-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cex-api
+  template:
+    metadata:
+      labels:
+        app: cex-api
+    spec:
+      containers:
+        - name: currency-exchange
+          image: chrisk14/currency-exchange:dev
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "2"
+          args:
+            - "python"
+            - "api.py"
