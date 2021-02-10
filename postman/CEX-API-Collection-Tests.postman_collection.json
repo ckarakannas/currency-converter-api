@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2dc3d60e-1bda-4ff7-9928-c8e59e55273c",
+		"_postman_id": "d2059f4d-f4b2-4d8f-b9d4-3b183626c62e",
 		"name": "CEX-API-Collection-Tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,7 +11,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "e5a27efe-8264-48ae-9239-3f61d2fac2a5",
 						"exec": [
 							"function roundToTwo(num) {    ",
 							"    return +(Math.round(num + \"e+2\")  + \"e-2\");",
@@ -55,7 +54,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "df6bdee8-22fc-43d0-8cfe-944e26794434",
 						"exec": [
 							""
 						],
@@ -101,7 +99,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "e5a27efe-8264-48ae-9239-3f61d2fac2a5",
 						"exec": [
 							"function roundToTwo(num) {    ",
 							"    return +(Math.round(num + \"e+2\")  + \"e-2\");",
@@ -167,7 +164,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "46a1d572-3d84-4cba-8f1f-b8cdd27e7892",
 						"exec": [
 							"function roundToTwo(num) {    ",
 							"    return +(Math.round(num + \"e+2\")  + \"e-2\");",
@@ -242,6 +238,5 @@
 			},
 			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
