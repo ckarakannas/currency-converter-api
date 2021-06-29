@@ -171,24 +171,37 @@
 			"response": []
 		},
 		{
-			"name": "/currency/{base}",
+			"name": "/rates/{base_currency}",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": ""
+					"raw": "{{url}}/rates/gbp",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"rates",
+						"gbp"
+					]
 				},
 				"description": "Provide base currency to get a list of conversion rates for that base currency"
 			},
 			"response": []
 		},
 		{
-			"name": "/currencies",
+			"name": "/ratesList",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": ""
+					"raw": "{{url}}/ratesList",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ratesList"
+					]
 				},
 				"description": "A list of all available currencies that can be used as base or conversion"
 			},
