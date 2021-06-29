@@ -94,8 +94,8 @@ pip install -r requirements-dev.txt
 ```
 5. Open the project from the root directory with either PyCharm or VS Code. Remember to point the IDE to the venv Python interpreter.
 
-## Quick run
-From the command line or within your IDE, run the ```api.py``` file. The app is now listening on localhost:5000. To check that the app is running, you can navigate to [localhost](http://localhost:5000/) on your web-browser and you should see a "Hello World" welcome message.
+## Quick local run
+From the command line or within your IDE, with the Python `venv` interpreter activated, run the ```api.py``` file. The app is now listening on `localhost:5000`. To check that the app is running, you can navigate to [localhost](http://localhost:5000/) on your web-browser and you should see a welcome message.
 
 # Docker
 
